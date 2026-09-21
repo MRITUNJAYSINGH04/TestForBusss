@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  # 1. PostgreSQL with PostGIS Geospatial Extension
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: gods_eye_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: gods_eye_business
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/sql/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. FastAPI Intelligence Backend
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: gods_eye_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgrespassword@db:5432/gods_eye_business
+      SERPAPI_API_KEY: ${SERPAPI_API_KEY:-b4b89bbe969eefc54c43f130e867a6a25985bcca03ae4dc92c521803e9295ec}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-AIzaSyBmDGdsjDg5siVFJEPlZ8SizNjq2pp6uO0}
+      GEMINI_MODEL: gemini-3.6-flash
+    ports:
+      - "8000:8000"
+
+  # 3. Next.js CesiumJS Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: gods_eye_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:8000/api
+      NEXT_PUBLIC_CESIUM_ION_TOKEN: ${NEXT_PUBLIC_CESIUM_ION_TOKEN:-}
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+    driver: local
