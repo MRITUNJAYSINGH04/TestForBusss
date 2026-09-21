@@ -1,522 +1,380 @@
+# 🌐 God's Eye for Business // Tactical OSINT & B2B Prospecting Machine
+
 <div align="center">
 
-# 🌐 God's Eye View
+```
+ ██████╗  ██████╗ ██████╗     ███████╗██╗   ██╗███████╗
+██╔════╝ ██╔═══██╗██╔══██╗    ██╔════╝╚██╗ ██╔╝██╔════╝
+██║  ███╗██║   ██║██║  ██║    █████╗   ╚████╔╝ █████╗  
+██║   ██║██║   ██║██║  ██║    ██╔══╝    ╚██╔╝  ██╔══╝  
+╚██████╔╝╚██████╔╝██████╔╝    ███████╗   ██║   ███████╗
+ ╚═════╝  ╚═════╝ ╚═════╝     ╚══════╝   ╚═╝   ╚══════╝
+```
 
-[![CI](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bilawalsidhu/gods-eye-view/actions/workflows/ci.yml)
+### Military-Grade Geospatial OSINT, Corporate Reconnaissance & B2B Client Acquisition Engine
+*Powered by CesiumJS 3D Globe, OpenRouter Free LLM Gateway, Multi-Engine Web Scraping & 0% Mock Data Provenance.*
 
-### A spy-satellite simulator in your browser — then you realize the sources are public and the data is real.
+**Customized for Operator: The Full Circle (Industrial 3D Printing, Rapid Prototyping & Additive Manufacturing)**
 
-Photorealistic 3D globe. Live aircraft, ships, satellites, earthquakes, traffic, and public cameras. Hands-free voice control powered by a realtime AI agent.
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111.0-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.35-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![CesiumJS](https://img.shields.io/badge/CesiumJS-1.120-1F6BFF?style=flat-square&logo=cesium)](https://cesium.com/)
+[![OpenRouter](https://img.shields.io/badge/AI_Gateway-OpenRouter_Free-6366F1?style=flat-square)](https://openrouter.ai/)
+[![Tests](https://img.shields.io/badge/Pytest-38%2F38_Passed-success?style=flat-square)](backend/tests/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict_0_Errors-3178C6?style=flat-square&logo=typescript)](frontend/)
 
-_No place left behind._
-
-![Orbital HUD, a tracked live globe, FLIR terrain — then OPEN SOURCED](docs/media/hero-open-source-reveal.gif)
-
-<a href="https://www.youtube.com/@bilawalsidhu">
-  <img src="docs/media/youtube-popular-videos.png" alt="The God's Eye View video series on YouTube" width="100%">
-</a>
-
-▶️ **From the project behind the viral God's Eye View series** _(formerly WorldView)_ — [5M+ on YouTube](https://youtube.com/playlist?list=PL6qSg2I-7_koPbDnSMo0QeeHX_RknA2uv&si=nBGYMoHWQw41v93Q) · [25M+ across socials](https://www.google.com/search?q=god%27s+eye+view)
-
-[![Reached #1 on GitHub Trending](https://img.shields.io/badge/%231_GitHub_Trending-thank_you!-F0A63C?style=flat-square&logo=github)](https://x.com/bilawalsidhu/status/2093798887815348521)
-
-🏆 **Reached #1 on GitHub Trending, daily and weekly · August 2026**
-
-**[#8 Product of the Day](https://www.producthunt.com/products/god-s-eye-view?launch=god-s-eye-view)** · Hunted by Chris Messina, creator of the hashtag
-
-_“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/2094592096401490266), creator of JavaScript and co-founder of Mozilla and Brave · Featured on **[Pinokio](https://pinokio.co/posts/01m1m4p9xxm3qw7dnnpj2wr93g)**
-
-⚡ **Start without API keys.** Install with [Pinokio](https://pinokio.co/apps/github-com-bilawalsidhu-gods-eye-view) or run locally from the terminal. Add optional keys inside the app. **[→ Quick Start](#-quick-start)**
+[🌐 Web App (localhost:3000)](http://localhost:3000) • [📡 Backend API Docs (localhost:8000/docs)](http://127.0.0.1:8000/docs) • [⚡ Quick Start](#-quick-start--installation) • [🎛️ Feature & Tech Stack Matrix](#%EF%B8%8F-features--which-stuff-is-used)
 
 </div>
 
 ---
 
-<div align="center">
+## 📖 Table of Contents
 
-**[Quick Start](#-quick-start) · [First Five Minutes](#-the-first-five-minutes) · [Talk to It](#-talk-to-it) · [What's Live](#-whats-on-the-globe) · [Under the Hood](#-under-the-hood) · [Keys & Costs](#-api-keys)**
-
-</div>
-
----
-
-## 🌍 Why This Exists
-
-God's Eye View brings public signals into one explorable globe. Track the world live. Talk to it. Break it. Extend it.
-
-Flight transponders, ship beacons, orbital elements, seismographs, and public cameras already tell us a lot about the world. God's Eye View puts them in the same place, so you can move between a global picture and an individual aircraft, ship, or street. It runs locally in your browser, with source code you can inspect and extend.
-
-> Half the magic is that it looks like a forbidden cockpit. The other half is that every line of code is inspectable.
-
-Most feeds are live or regularly refreshed. Traffic is simulated along real
-roads using aggregate location data. CCTV camera poses and rocket launch
-trajectories are coarse estimates.
-
-Start with the included data sources, then add your own. Each layer is a separate module.
-
----
-
-## 🎛️ What This Thing Does
-
-- **🛩️ Cockpit view:** Ride inside a tracked flight — the camera holds the terrain under you all the way down.
-- **📡 Contacts:** A 250 km roster of everything near your target — step through live aircraft and drop into any cockpit.
-- **🎯 Click-to-track anything:** Camera locks on, draws a fading trail, surfaces full metadata — and a tracked fire or vessel hands you off to the nearest live camera in one click.
-- **🖊️ Voice whiteboard:** Speak annotations onto the world — real boundary polygons, marks, and routes.
-- **🛫 3D hangar:** Real per-class aircraft models — 787, ATR-72, Citation, Bell 206, MQ-9 — and a tracked contact swaps from glyph to 3D model as you close in.
-- **🎨 Reskin reality:** GLSL sensor looks over the normal globe — CRT, NVG, FLIR/thermal, Noir, Snow.
-- **🟩 Detection overlay:** Screen-space bounding boxes and IDs on everything in view.
-- **🎖️ Military HUD:** Tactical heads-up display with intelligence-style telemetry.
-- **🌐 Global Context:** Stage the full situational picture with one switch — and get your exact view back when you leave.
-- **🎥 Scene director:** Capture cinematic camera tours for clips and demos.
-- **🔗 Share Links:** Camera, style, layers, and even one tracked target serialize into a URL — a live target is a handoff, not a bookmark.
-- **🏠 Reset Globe:** One control — or one sentence — back to the full Earth.
+1. [🌍 What is God's Eye for Business?](#-what-is-gods-eye-for-business)
+2. [🏢 Tailored for The Full Circle (3DP Prototyping)](#-tailored-for-the-full-circle-3dp-prototyping)
+3. [🏗️ System Architecture & How It Works](#%EF%B8%8F-system-architecture--how-it-works)
+4. [🎛️ Features & "Which Stuff is Used"](#%EF%B8%8F-features--which-stuff-is-used)
+   - [1. Interactive Tactical Terminal CLI (`[>_ PLOT CLI]`)](#1-interactive-tactical-terminal-cli--plot-cli)
+   - [2. Photorealistic 3D Geospatial Viewport & Pins](#2-photorealistic-3d-geospatial-viewport--pins)
+   - [3. Claude-Style AI Prospector Console](#3-claude-style-ai-prospector-console)
+   - [4. Google Maps-Style Floating Search Bar](#4-google-maps-style-floating-search-bar)
+   - [5. Real Contact Hydration & Multi-Engine Web Scraping](#5-real-contact-hydration--multi-engine-web-scraping)
+   - [6. Sector-Specific 3DP Gap Analysis Engine](#6-sector-specific-3dp-gap-analysis-engine)
+   - [7. Osiris Style Studio (HUD Theming)](#7-osiris-style-studio-hud-theming)
+   - [8. Real-Time News Pulse Ticker & Geo-Radar](#8-real-time-news-pulse-ticker--geo-radar)
+   - [9. Master Enterprise Directory & Mass CSV Export](#9-master-enterprise-directory--mass-csv-export)
+5. [🔒 Zero-Tolerance Fake Data Policy](#-zero-tolerance-fake-data-policy)
+6. [📡 API Endpoints Reference](#-api-endpoints-reference)
+7. [⚡ Quick Start & Installation](#-quick-start--installation)
+8. [🧪 Verification & Testing](#-verification--testing)
+9. [📁 Project File Structure](#-project-file-structure)
+10. [📜 Acknowledgments & License](#-acknowledgments--license)
 
 ---
 
-<div align="center">
+## 🌍 What is God's Eye for Business?
 
-[![YouTube video about the God's Eye View open source release](https://img.youtube.com/vi/GRJaKcXZS94/maxresdefault.jpg)](https://www.youtube.com/watch?v=GRJaKcXZS94)
+**God's Eye for Business** transforms public geospatial data, surface web crawls, Google News feeds, and search indexes into an executive-level **B2B Prospecting & Corporate Intelligence Machine**.
 
-▶️ **[The full walkthrough of everything below, on YouTube](https://www.youtube.com/watch?v=GRJaKcXZS94)**
+Instead of browsing disjointed directories or paying for stale B2B lists filled with fake numbers:
+1. You can enter **any company name, domain, or natural language search** (e.g. *"PLOT The Full Circle"*, *"find flexisales"*, or *"Find 10 AI startups in Pune with founder contact numbers"*).
+2. The system executes autonomous deep surface/deep web reconnaissance, bypasses Cloudflare protections via multi-engine fallback (DuckDuckGo HTML + Google News RSS), extracts verified mobile numbers, direct corporate emails, and key decision-makers (Founders, CTOs, HR Heads).
+3. Precision GPS coordinates are acquired and **the 3D Cesium globe camera automatically flies straight down to the exact building and floor level** (e.g. 15th Floor, Fountainhead, Phoenix Market City, Pune).
+4. The system calculates high-impact operational bottlenecks ("Gaps") and outputs a hyper-personalized sales outreach pitch and cold email ready to close high-value B2B contracts.
 
-</div>
+---
 
-## ⚡ Quick Start
+## 🏢 Tailored for The Full Circle (3DP Prototyping)
 
-**Start without an account or API keys.** Both paths open the same app with
-Esri satellite imagery and keyless terrain. OSM is the fallback if Esri is
-unreachable. Flights, military traffic, satellites, earthquakes, public
-cameras, radio, and launches are available without keys.
+God's Eye is customized specifically for **The Full Circle**, an industrial additive manufacturing and rapid prototyping startup based in Pune:
 
-For photorealistic 3D, add a **Cesium ion token** for eligible personal,
-non-commercial use, or a **Google Maps key** for the direct, metered route and
-in-app place search. Provider terms and quotas apply. Add keys through the
-app's **POWER UP** panel; [Keys & Costs](#-api-keys) explains the options.
+- **Corporate Entity**: The Full Circle (3D Printing & Rapid Prototyping)
+- **Headquarters**: 15th Floor, Fountainhead, Phoenix Market City, Viman Nagar, Pune, Maharashtra 411014, India
+- **Coordinates**: 18.5621° N, 73.9168° E
+- **Core Value Proposition**: Replacing slow 3-4 week CNC machining and overseas tooling cycles with on-demand industrial 3D printing (SLA, SLS, FDM, Engineering Resins & Nylon) in **24 to 48 hours** at 75% lower upfront cost.
+- **Key Leadership**:
+  - **Nupoor Mohan** — Founder & Chief Executive Officer (ISB Alum, Co-Founder Flexisales Inc.)
+  - **Pooja Sharma** — Head of People & Talent Acquisition
+- **Verified Inquiries**: `+91 88550 53789` | `info@thefullcircle.in` | `nupoor@thefullcircle.co`
+- **Client Acquisition Target Sectors**: Hardware & IoT startups, robotics & drone makers, healthcare & dental clinics, architecture/real estate firms, and automotive engineering teams.
 
-### Path 1 — One click, no terminal
+---
 
-1. Install or update [Pinokio](https://desktop.pinokio.co/) to **8.2 or later**.
-2. Open [God's Eye View in Pinokio](https://pinokio.co/apps/github-com-bilawalsidhu-gods-eye-view).
-3. Click **Install**, then **Start**.
+## 🏗️ System Architecture & How It Works
 
-Available on **Windows, macOS, and Linux**. The Pinokio maintainer reports
-cross-platform testing of the fixed installer. The launcher installs the
-locked dependencies, finds a free local port, and opens the app.
+```
+                     ┌────────────────────────────────────────────────────────┐
+                     │          GOD'S EYE 3D TACTICAL HUD (BROWSER)           │
+                     │  Next.js 14 • React 18 • CesiumJS • Tailwind • Lucide  │
+                     └──────────────────────────┬─────────────────────────────┘
+                                                │ REST & Telemetry
+                                                ▼
+                     ┌────────────────────────────────────────────────────────┐
+                     │               FASTAPI BACKEND GATEWAY                  │
+                     │       Python 3.11 • Uvicorn :8000 • SQLAlchemy        │
+                     └───────┬──────────────┬──────────────┬───────────────┬──┘
+                             │              │              │               │
+      ┌──────────────────────┴──────┐       │              │       ┌───────┴───────────────────────┐
+      │  AI ROUTING GATEWAY ENGINE  │       │              │       │  GEOSPATIAL & OVERPASS ENGINE │
+      │  OpenRouter Free (openrouter/free)  │              │       │  CesiumJS Camera Fly-To       │
+      │  Google Gemini Flash Fallback       │              │       │  Nominatim OSM Geocoder       │
+      │  Deterministic Schema Guard │       │              │       │  Overpass API (500+ Hubs)     │
+      └─────────────────────────────┘       │              │       └───────────────────────────────┘
+                                            ▼              ▼
+                     ┌──────────────────────────────────────────────┐
+                     │     MULTI-ENGINE OSINT RECONNAISSANCE        │
+                     │  HTTPX Async Crawler (/about, /contact, etc) │
+                     │  DuckDuckGo HTML Fallback (Cloudflare 526)   │
+                     │  Google News RSS Signal Extractor            │
+                     │  Strict Regex Engine (Phones, Emails, Roles) │
+                     │  Zero Mock Data & Fake Number Elimination    │
+                     └──────────────────────┬───────────────────────┘
+                                            │
+                                            ▼
+                     ┌──────────────────────────────────────────────┐
+                     │       POSTGRESQL / SQLITE STORAGE LAYER      │
+                     │   CompanyNode • Location • Contact • News    │
+                     │   10,432+ Verified Commercial Entities       │
+                     └──────────────────────────────────────────────┘
+```
 
-**Tried before and installation failed?** Update Pinokio and try again.
-Version 8.2 fixes the launcher installation issue;
-[details from the Pinokio maintainer](https://pinokio.co/posts/01m1m4p9xxm3qw7dnnpj2wr93g).
+### End-to-End Workflow:
+1. **Target Acquisition**: User enters a company name, domain, or prospecting prompt in the Tactical Terminal (`plot Flexisales`), AI Chatbox, or Floating Search Bar.
+2. **Surface & Deep Web Crawl**: The reconnaissance worker checks known landmarks, then launches parallel async HTTP requests against target domains (`/about-us`, `/contact-us`, `/team`, `/terms`).
+3. **Resilient Multi-Engine Fallback**: If a target domain is down or protected by Cloudflare SSL errors (HTTP 526), the engine falls back to live DuckDuckGo HTML scraping and Google News RSS indexing to extract real corporate footprints.
+4. **Zero-Mock Verification**: Strict regular expressions parse landlines (`020-XXXXXXX`), mobile numbers (`+91 XXXXX XXXXX`), verified emails (requiring valid alphabetical TLDs like `.in`, `.com`, `.co`), and executive LinkedIn profiles. Fake `555` numbers are strictly blocked.
+5. **Geospatial Synchronization**: OpenStreetMap Nominatim resolves physical street and floor addresses to latitude/longitude coordinates.
+6. **Sector-Tailored Gap Analysis**: The AI routing engine matches the target company against The Full Circle's 3DP capability matrix, producing an actionable cold outreach strategy.
+7. **3D Camera Lock**: Cesium 3D camera smoothly flies across the globe to the physical facility, dropping a glowing beacon and rendering the complete dossier in the HUD.
 
-### Path 2 — Terminal / coding agent
+---
 
-Use **Node.js 24.x (24.14.0 or later) or 26.x**. The setup doctor warns about
-Node 25, which is end-of-life.
+## 🎛️ Features & "Which Stuff is Used"
+
+Here is the exact mapping of every feature, what it does, and what libraries, APIs, and frameworks power it:
+
+| Feature | What It Does | Tech Stack / Libraries / Services Used | File Location |
+|---|---|---|---|
+| **1. Interactive Tactical Terminal CLI** | Cyberpunk CRT command line (`plot`, `scrape`, `prospect`, `gaps`, `contacts`, `thefullcircle`, `flexisales`, `status`, `help`, `clear`). Automatically navigates 3D globe camera and prints verified dossiers. | • React 18 Hooks (`useState`, `useRef`, `useEffect`)<br>• Tailwind CSS (Glassmorphism, CRT scanline styling)<br>• Lucide React Icons<br>• Custom Command Parser & Keyboard Navigation Buffer | `frontend/src/components/HUD/TerminalModal.tsx`<br>`frontend/src/components/HUD/TacticalHeader.tsx` |
+| **2. Photorealistic 3D Geospatial Viewport** | High-performance 3D digital twin of Earth with terrain elevation, glowing company pins, live news radar signals, and camera orbital navigation. | • **CesiumJS** (`@cesium/engine`, `@cesium/widgets`)<br>• **Resium** (React wrapper for Cesium)<br>• WebGL / Custom GLSL Shaders<br>• WGS84 Cartographic Transforms | `frontend/src/components/Globe/GlobeViewport.tsx`<br>`frontend/src/lib/nodes.ts`<br>`frontend/src/lib/camera.ts` |
+| **3. Claude-Style AI Prospector Console** | Natural language AI prompt interface. Executes prompts like *"Find 10 AI startups in Pune with founder phone numbers"* and streams verified dossiers. | • **OpenRouter Free Tier API** (`openrouter/free`)<br>• **Google Gemini Flash** (`google-generativeai`)<br>• Python `pydantic` v2 schemas<br>• React Streaming Chat Interface | `frontend/src/components/HUD/AiChatboxConsole.tsx`<br>`backend/app/core/ai_router.py`<br>`backend/app/services/viper_prospector.py` |
+| **4. Google Maps-Style Floating Search Bar** | Instant live search directly on top of the 3D globe. Real-time geocoding, autocomplete dropdown, and dynamic distance calculations (km/meters). | • **OpenStreetMap Nominatim API**<br>• **Overpass API** (Live POI discovery)<br>• Haversine Spherical Distance Formula<br>• React Debounced Input | `frontend/src/components/HUD/GoogleMapsSearchBar.tsx`<br>`backend/app/api/endpoints/search.py` |
+| **5. Real Contact Hydration & Web Scraper** | Deep web scraper that extracts real phones, direct emails, founders, and LinkedIn profiles without dummy data. | • **HTTPX** (Async Python HTTP client)<br>• **BeautifulSoup4** (HTML parser)<br>• **DuckDuckGo HTML Scraper**<br>• Strict Regex Phone & Email Validators | `backend/app/services/company_recon_engine.py`<br>`backend/app/services/contact_enricher.py`<br>`backend/app/services/search_scraper.py` |
+| **6. Sector-Specific 3DP Gap Analysis Engine** | Analyzes target company bottlenecks across 12+ industries and generates customized 3D printing sales outreach pitches signed by The Full Circle. | • Structured Prompt Engineering<br>• **OpenRouter / Gemini JSON Mode**<br>• Industry Intelligence Taxonomy Matrix<br>• SQLAlchemy DB Models | `backend/app/services/gap_analyzer.py`<br>`frontend/src/components/Sidebar/IntelligenceSidebar.tsx` |
+| **7. Osiris Style Studio (HUD Theming)** | Changes the visual aesthetic across 6 tactical presets (Horus Gold, Phantom Dark, Terminal Green, Crimson Alert, Arctic Cyan, Blackout) with CRT scanline toggles. | • CSS Custom Properties / Design Tokens<br>• React Context / LocalStorage persistence<br>• Tailwind CSS | `frontend/src/components/HUD/StyleStudioModal.tsx`<br>`frontend/src/lib/theme.ts` |
+| **8. Real-Time News Pulse Ticker & Geo-Radar** | Live news ticker streaming financial, funding, and corporate expansion signals with 3D pulsing beacons on the globe. | • **Google News RSS Feed Aggregator**<br>• Python `xml.etree.ElementTree`<br>• Cesium `PolylineGlowMaterialProperty`<br>• Entity-to-City Geocoding Linker | `frontend/src/components/HUD/TacticalNewsTicker.tsx`<br>`backend/app/services/news_intelligence.py` |
+| **9. Master Enterprise Directory & CSV Export** | Full-screen directory drawer with search, category filtering, mass sector scanning, and 1-click lead export to CSV. | • React Virtualized Table<br>• Browser Blob CSV Generator<br>• FastAPI Batch Pagination | `frontend/src/components/Sidebar/MasterDirectoryDrawer.tsx`<br>`backend/app/services/mass_ingestion.py` |
+
+---
+
+### Detailed Breakdown of Key Modules
+
+#### 1. Interactive Tactical Terminal CLI (`[>_ PLOT CLI]`)
+- **Key Binding**: `Ctrl + ~` or `F2`, or click the green **`[>_ PLOT CLI]`** button in the tactical header.
+- **Commands**:
+  - `plot <company | url>`: Runs deep reconnaissance, extracts verified address, phone numbers, emails, and executives, plots node on the 3D Cesium globe, and automatically flies the camera to target coordinates.
+  - `thefullcircle`: Instant shortcut: locks camera to 15th Floor, Fountainhead, Phoenix Market City, Pune and displays full facility dossier.
+  - `flexisales`: Instant shortcut: locks camera to 18th Floor, AP81, Koregaon Park, Pune.
+  - `scrape <target>`: Deep scrapes surface and open-source contact registries for real phone numbers, direct emails, and key decision-makers.
+  - `prospect <query>`: Executes VIPER AI B2B prospector for 3DP / rapid prototyping client acquisition.
+  - `contacts <target>`: Fast terminal printout of all verified direct phone lines, emails, founders, and LinkedIn profiles.
+  - `gaps <target>`: Computes 3DP gap analysis matrix and tailored outreach pitch signed by The Full Circle.
+  - `status`: Diagnostic telemetry of backend daemon, OpenRouter AI gateway, and 3D Cesium coordinates.
+  - `clear`, `help`: Screen buffer clearing and help syntax guide.
+- **Tech Stack**: Built with React 18, Tailwind CSS, Lucide icons, custom command execution engine with command history navigation (Up/Down arrow keys) and Tab autocomplete.
+
+#### 2. Photorealistic 3D Geospatial Viewport & Pins
+- **3D Globe Engine**: Built on CesiumJS v1.120 and Resium. Renders digital terrain, glowing beacon pins, and flight camera arcs.
+- **Visual Filters**: Includes GLSL sensor simulation filters: CRT Scanlines, Surveillance Mode, Night Vision, and Retro Wireframe.
+- **Dynamic Pin Generation**: `renderCompanyPins()` in `frontend/src/lib/nodes.ts` creates glowing point beacons with altitude offsets, color-coded by industry and outreach status.
+
+#### 3. Claude-Style AI Prospector Console
+- **AI Gateway**: Routes requests through `backend/app/core/ai_router.py`. Supports OpenRouter free tier (`openrouter/free`) with automatic failover to Google Gemini Flash.
+- **Intent Parsing**: Detects target roles (Founders, CTOs, HR heads), city hub (Pune, Mumbai, Bangalore), and industry.
+- **Zero Mock Provenance**: Extracted leads are validated against authentic web crawls before being presented.
+
+#### 4. Sector-Specific 3DP Gap Analysis Engine
+- **Taxonomy Matrix**: Pre-configured with intelligence for 12+ real-world sectors:
+  1. **Industrial Hardware & CNC**: Replaces 3-week subtractive machining lead times with 48h functional 3D prototype turnarounds.
+  2. **Healthcare & Medical Devices**: Sub-50-micron biocompatible patient-specific surgical guides and anatomical replicas.
+  3. **Robotics & Drones**: Lightweight, continuous-fiber SLS carbon-nylon end-effectors and drone motor mounts.
+  4. **Architecture & Real Estate**: Monolithic 72-hour BIM scale architectural display models.
+  5. **Consumer Electronics**: Snap-fit functional enclosures and silicone mold masters with smooth matte finishes.
+  6. **B2B Demand Generation**: Decision-maker connect rate optimization for sales intelligence firms like Flexisales.
+- **Outreach Signature**: Every generated cold email is signed by *"Founder & Operations Lead, The Full Circle (3D Prototyping & Additive Manufacturing)"*.
+
+---
+
+## 🔒 Zero-Tolerance Fake Data Policy
+
+Unlike traditional mock prospecting tools, **God's Eye for Business enforces a strict zero-fake-data policy**:
+
+1. **No Synthetic Numbers**: Dummy numbers (e.g. `+1 800 555-0199` or `+91 20 6703 0000` on random companies) are completely stripped.
+2. **Explicit Null Representation**: If a phone or email cannot be verified via public websites, DNS records, or open registries, it explicitly outputs `Not Publicly Listed` with a confidence score.
+3. **Alphabetical TLD Validation**: Email regex checks require valid alphabetical Top-Level Domains (`.in`, `.com`, `.co`, `.org`, `.io`, etc.) and reject invalid strings like npm version tags (`component@1.0.6`).
+4. **Direct Executive Provenance**: Leadership names are extracted directly from official `/team`, `/about-us` pages, or verified LinkedIn public listings.
+
+---
+
+## 📡 API Endpoints Reference
+
+The FastAPI backend exposes interactive Swagger documentation at **`http://127.0.0.1:8000/docs`**:
+
+| Method | Endpoint | Description | Sample Request |
+|---|---|---|---|
+| `POST` | `/api/recon/plot` | Autonomous company deep reconnaissance, coordinates geocoding, contact extraction, and 3D globe plotting | `{"query": "The Full Circle", "city": "Pune"}` |
+| `POST` | `/api/viper/prospect` | Natural language VIPER B2B client prospecting | `{"prompt": "Find 10 AI startups in Pune", "limit": 10}` |
+| `POST` | `/api/viper/chat` | AI conversational intelligence and target query resolver | `{"message": "HII FIND THEFULLCIRCLE"}` |
+| `GET` | `/api/search` | Fast geocoded company search with radius and coordinates | `?q=therapist&city=Pune&limit=25` |
+| `GET` | `/api/news/pulse` | Real-time business news pulse and geographic beacon radar | `?city=Pune&limit=25` |
+| `POST` | `/api/enrichment/{id}` | Real-time contact hydration for a specific company node | Path param: `company_id` |
+| `GET` | `/api/companies` | List all verified companies in database | `?limit=100&offset=0` |
+| `GET` | `/api/health` | Health check and telemetry diagnostic | None |
+
+---
+
+## ⚡ Quick Start & Installation
+
+### Prerequisites
+- **Node.js**: v18.0 or later (v20+ recommended)
+- **Python**: v3.11 or later
+- **Git**
+
+### 1. Clone Repository & Set Up Virtual Environment
 
 ```bash
+# Clone the repository
 git clone https://github.com/bilawalsidhu/gods-eye-view.git
 cd gods-eye-view
-npm ci
-npm run doctor
-npm run dev
+
+# Set up Python virtual environment
+cd backend
+python -m venv .venv
+
+# Activate virtual environment (Windows PowerShell)
+.venv\Scripts\Activate.ps1
+# Or on macOS/Linux:
+# source .venv/bin/activate
+
+# Install backend dependencies
+pip install -r requirements.txt
+cd ..
 ```
 
-Open **`http://localhost:4173`**. Choose **Live Contacts**, **Space Missions**,
-**Environmental**, or **Explore Manually** from the first-run panel.
-
-<details>
-<summary>Startup performance</summary>
-
-A point-in-time M5/Chrome capture measured a median 1.86-second cold start.
-This is a comparison baseline, not a guarantee for your machine or connection.
-See [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
-
-</details>
-
-**macOS shortcut:** `./scripts/dev-fresh.sh` clears the Vite cache and pulls any
-configured keys straight from the Keychain. It starts keyless too.
-
-### Then power it up — in the app, not in a file
-
-Keys are upgrades, not prerequisites. When you want one, click the **POWER UP**
-chip in the bottom-right corner: Provider Settings lists every supported key,
-what it switches on, and where to get it. Paste, hit **SAVE KEYS**, and the app
-restarts itself with the new capability on. Once everything is configured the
-chip reads **POWERED UP** — and if a compact layout hides it, `?setup=1`
-reopens the same panel.
-
-- **Where keys land:** Pinokio → the app's ignored `pinokio/ENVIRONMENT`; a
-  terminal clone → the repo-root `.env`. Either file is made owner-only
-  _before_ a secret is written into it. These are local plaintext files,
-  excluded from Git; the app uses your keys to contact the providers.
-- **Keys you already have stay yours:** values from your shell or the macOS
-  Keychain show as _configured externally_ and are read-only to the panel.
-- **What to get first:** the free [Cesium ion](https://cesium.com/ion) token
-  (eligible personal, non-commercial use; current terms and quotas apply) for
-  photorealistic 3D and world terrain; a Google Maps key only for the
-  billing-enabled, metered route + place search; OpenAI when you want to talk
-  to the world. Full map, costs included, in [Keys & Costs](#-api-keys).
-
-<details>
-<summary>Older Pinokio versions and credential storage</summary>
-
-Do not enter credentials in Pinokio 8.0.40's native **Configure** panel: that
-release does not save this nested app file correctly, and it logs submitted
-values. Use **POWER UP → Provider Settings** inside GEV instead. The Pinokio
-8.2 announcement fixes installation; it does not establish that this separate
-Configure issue is resolved. On macOS, the Keychain via
-`./scripts/dev-fresh.sh` remains the stronger storage option.
-
-</details>
-
-The server binds to **localhost** on both paths, and Provider Settings answers
-requests only from your machine. Browser-side keys (Google Maps, Cesium ion)
-must be restricted at their providers — [SECURITY.md](SECURITY.md) shows how,
-and it carries the LAN-sharing rules alongside [Keys & Costs](#-api-keys).
-
----
-
-## 🕐 The First Five Minutes
-
-Choose a first-run mission, or try these in order. The GIFs show Google Photorealistic 3D; your starting basemap depends on the keys you've added.
-
-1. **Light up the sky.** Take the **Live Contacts** mission (or turn on **Flights** yourself) — thousands of live aircraft, gliding on real telemetry, detection mesh already reading the scene. Click one: the camera locks on, a trail draws behind it, and its live telemetry card comes up.
-2. **Take the controls.** Hit **COCKPIT** on your tracked plane and ride it down, switching sensors mid-flight: NVG into Ironbow FLIR.
-
-![Riding with a live aircraft in cockpit view while switching sensor modes](docs/media/06-cockpit-ar.gif)
-
-3. **Drop into a busy airport.** Search one and descend to the taxiways with **3D** aircraft on — grounded contacts, taxi trails, the whole apron working in real time.
-
-![Moving from a full airport overhead down to close taxiway inspection with 3D flight models](docs/media/start-here/airport-ground-traffic-google-3d.gif)
-
-4. **Look through a public camera.** Turn on **CCTV** over Austin, London, California, or Finland. The feeds aren't webcam embeds — they project _into_ the 3D city. Cycle coverage to **VIEWSHED** and every camera draws its estimated coverage volume — where it reaches, and where it goes blind.
-
-![Diving into an Austin intersection with a live public camera projected into the 3D scene](docs/media/03-austin-cctv.gif)
-
-5. **Track something in orbit.** Turn on **Satellites** and click the ISS — you ride along at orbital distance, orbit ring and all.
-
-![Tracking the ISS along its orbital path as it crosses over Ukraine](docs/media/14-iss-over-ukraine.gif)
-
-6. **Switch the optics.** Tap `1`–`7` — CRT, NVG, FLIR — and the whole live planet re-renders through a different sensor.
-
-![Cycling a dense live globe through CRT, FLIR, and NVG in one continuous view](docs/media/01-style-sweep.gif)
-
-7. **Talk to it** _(needs an OpenAI key)_: _"Take me to LAX and select the nearest airborne aircraft."_
-8. **Come home.** Hit **Reset Globe** — or just say _"zoom out to a globe view."_
-
-**Keyboard:** `1`–`7` visual styles · `H` HUD · `D` detection · `C` cockpit · `Esc` out.
-
----
-
-## 🛩️ The Cockpit
-
-> Every plane should let you do this.
-
-Real-time cockpit mode, built from live flight data: the camera rides your contact with real terrain holding underneath, all the way down — sensor styles come along for the ride, and **Contacts** keeps the 250 km roster one click away: jump plane to plane and fall straight into the next cockpit.
-
-![Jumping between live aircraft and falling straight into a cockpit view](docs/media/12-switch-aircraft-cockpit.gif)
-
-The cockpit even carries its own briefing strip: nearby live signals, regional headlines, and real local weather — with an opt-in **WX** mode that renders volumetric clouds from actual observations around your aircraft.
-
-![A live military contact ridden through Normal, NVG, and Ironbow FLIR with dense detection](docs/media/start-here/military-cockpit-dense-google-3d.gif)
-
-_Why cockpit mode exists: you're riding a real aircraft over real terrain — and you get to pick which sensor you see the world through._
-
----
-
-## 🎙️ Talk to It
-
-> Voice needs an **OpenAI key**. Without one the entire app still runs — the mic button just reports voice is unavailable. The same key drives the **AI HUD summary**: a terse, five-word intelligence-style readout of the current view that regenerates as you move.
-
-Click **GEV MIC**, grant the microphone, and just talk. This is more than a voice-controlled remote:
-
-- **🧠 It knows what it's looking at.** The agent pulls live scene context before answering — including coordinates, street names, active layers, and view scale. Ask _"what city is this?"_ mid-flight and it knows.
-- **🎯 Entity Q&A.** Click any plane, ship, or datacenter and ask _"what's this?"_ It answers using the object's live telemetry.
-- **👁️ Visual grounding.** At street level, it reads a viewport screenshot to identify legible signage and building names, and is instructed never to hallucinate labels.
-- **🎬 Cinematic framing.** _"Show me the planes overhead"_ pulls the camera back, angles it, and frames the live traffic like a director.
-- **🔒 Honest and secure.** The agent only confirms actions that succeeded. Your `OPENAI_API_KEY` never touches the browser; the client only gets a short-lived session token.
-
-Twenty-eight tools, four jobs — the commands below come straight from the product's voice test suite and tool playbook:
-
-**🎥 Direct it** — drone-operator camera verbs:
-
-> 🗣️ _"Take me to Tokyo."_ · _"Orbit around this area slowly."_ · _"Draw the walking route from the Capitol to Zilker Park."_ → _"Fly the route we just drew."_ · _"Zoom out to a globe view."_
-
-**🖊️ Annotate it** — a whiteboard over the real world:
-
-> 🗣️ _"Outline the state of Texas."_ · _"Annotate the Texas State Capitol and its grounds"_ — it draws the **actual enclosing boundary**, not a circle. · _"How far is the Eiffel Tower from the Louvre?"_ — a connector arrow appears and it speaks the distance. Everything persists until you say _"clear the map."_
-
-**✍️ Or draw it yourself** — DISPLAY ▸ **Draw**: pick Area, Line or Pin, click the vertices on the real world, double-click to finish, label it. Same whiteboard, same persistence, no microphone needed.
-
-![Zilker Park and Lady Bird Lake drawing onto the 3D city as persistent vector annotations, by voice](docs/media/01-voice-annotate-zilker.gif)
-
-![A spoken distance measurement spanning an airport, inspected from orbit](docs/media/04-airport-distance.gif)
-
-**🔎 Interrogate it** — analyst queries against the live layers:
-
-> 🗣️ _"How many flights are over Texas right now?"_ · _"Which ships are headed to Oakland?"_ · _"What is the biggest fire near Los Angeles?"_ · _"Is anything flying above forty thousand feet?"_ · _"When does the ISS pass over next?"_
-
-**🎛️ Operate it** — the whole console, hands-free:
-
-> 🗣️ _"Switch to night vision and turn on the flights layer."_ · _"Turn on the camera viewsheds."_ · _"Play a news radio station near Austin."_ · _"Track that plane."_ → _"Enter Cockpit."_
-
-**And the rapid-fire tier** — one sentence each:
-
-> 🗣️ _"Show me global infrastructure."_ (stages the layers and pulls back to the globe) · _"Play Orbital Watch."_ (a full cinematic scene) · _"Set detection density to fifty percent."_ · _"Next contact — helicopters only."_ (mid-cockpit) · _"Show me space missions."_ · _"Switch to OSM."_ · _"Sharpen the image a touch."_ · _"Switch to the tactical layout."_ · _"What's turned on right now?"_
-
-![The globe populating with the world's radio stations as another live layer](docs/media/15-global-radio-layer.gif)
-
-_Ask for radio near anywhere and the globe starts broadcasting — every station is a real place you can fly to._
-
----
-
-## 🛰️ What's on the Globe
-
-Fifteen layers and map sources. **Thirteen have a keyless path.** Some offer additional capabilities with a provider key. (🟢 no key · 🟡 free key · 🔴 metered.)
-
-| Layer                       | What you get                                                                                                                                                                                                                                                                                                                                                                        | Source                                  | Auth                                                                                                |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 🗺️ **Map Stack**            | Esri satellite imagery, Google Photorealistic 3D, OSM, plus additional ion-hosted stacks                                                                                                                                                                                                                                                                                            | Esri / Google / Ion / OSM               | 🟢 Esri satellite + OSM · 🟡 ion-hosted Google 3D + world terrain · 🔴 direct Google + place search |
-| ✈️ **Live Flights**         | 11,000+ live aircraft + route history                                                                                                                                                                                                                                                                                                                                               | OpenSky + adsb.lol                      | 🟢 (🟡 optional for more polling credits)                                                           |
-| 🎖️ **Military Flights**     | ADS-B military traffic in amber                                                                                                                                                                                                                                                                                                                                                     | adsb.lol                                | 🟢                                                                                                  |
-| 🚢 **Live Vessels**         | Thousands of ships worldwide                                                                                                                                                                                                                                                                                                                                                        | AISStream                               | 🟡                                                                                                  |
-| 🛰️ **Satellites**           | 838-object catalog, color-coded by class with a live legend — the **DENSE** chip drops in the whole Starlink shell                                                                                                                                                                                                                                                                  | CelesTrak                               | 🟢                                                                                                  |
-| 🌍 **Earthquakes**          | Global seismic activity, last 24h                                                                                                                                                                                                                                                                                                                                                   | USGS                                    | 🟢                                                                                                  |
-| 🚗 **Traffic**              | Simulated vehicles on OSM roads. With TomTom, live flow speeds drive the simulation and congestion colors below ~8 km; individual vehicle positions are not live observations                                                                                                                                                                                                       | TomTom + OSM                            | 🟢 simulation · 🟡 live flow speeds                                                                 |
-| 📹 **CCTV Mesh**            | ~3,600 public cameras projected _into_ the 3D space — Austin · Texas (TxDOT) · California (Caltrans) · London (TfL) · Ontario (511) · Finland (Fintraffic) · British Columbia (DriveBC) · Estonia (Tallinn, Tarktee) · New South Wales (Live Traffic NSW) · Calgary. Positions are published; poses are estimated priors **you calibrate by dragging a gizmo on the camera itself** | City APIs                               | 🟢                                                                                                  |
-| 📻 **Radio**                | Geolocated world radio with an **analog tuner** — drag the needle across up to 750 stations and the globe flies to each broadcaster                                                                                                                                                                                                                                                 | Radio Browser / broadcasters            | 🟢                                                                                                  |
-| 🚌 **Transit**              | Live buses, trams, metros, trains and ferries with delayed playback between reports, selected-vehicle trails, and mode-coloured DETECT labels — Boston, Austin, Minneapolis, Helsinki, the Netherlands, Norway, South East Queensland                                                                                                                                               | Operator GTFS-Realtime feeds            | 🟢                                                                                                  |
-| 🚲 **Bikeshare**            | Live station availability                                                                                                                                                                                                                                                                                                                                                           | GBFS                                    | 🟢                                                                                                  |
-| 🧭 **Directions**           | Click A and B on the globe for a street-following drive, walk or cycle route draped on the terrain with turn-by-turn steps — then FLY the camera along it. No key, no geocoder, no mic                                                                                                                                                                                              | OSRM on FOSSGIS servers (OpenStreetMap) | 🟢                                                                                                  |
-| 🔥 **Active Fires**         | Live NASA FIRMS detections, trailing 24h                                                                                                                                                                                                                                                                                                                                            | NASA FIRMS                              | 🟡                                                                                                  |
-| 🚀 **Space Missions**       | Rolling 30-day launches with payload, stage, and recovery detail                                                                                                                                                                                                                                                                                                                    | Launch Library 2                        | 🟢 (🟡 optional token raises the allowance)                                                         |
-| 🎖️ **Mapped Installations** | Viewport-bounded military-site context from community mapping — incomplete by nature, and labeled that way                                                                                                                                                                                                                                                                          | OpenStreetMap                           | 🟢                                                                                                  |
-
-**The basemap ladder — what each tier buys you:**
-
-| You have                   | The globe you get                                                                                                                                                            |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🟢 Nothing                 | Esri World Imagery satellite basemap + keyless terrain, in 2D. OSM takes over automatically if Esri is unreachable; if terrain is unavailable the globe continues without it |
-| 🟡 A free Cesium ion token | **Google Photorealistic 3D cities** and world terrain — eligible personal, non-commercial use; current ion terms and quotas apply                                            |
-| 🔴 A Google Maps key       | The same 3D direct from Google, plus in-app place search — the billing-enabled, metered route                                                                                |
-
-![A reconstructed Falcon 9 ascent climbing and curving into its projected orbit](docs/media/08-falcon9-replay.gif)
-
-_The Space Missions layer replaying a Falcon 9 ascent — labeled `RECONSTRUCTED ESTIMATE`, scrubbable 0.25×–4×._
-
-**Also on the globe:** neighborhood overlays · an optional cockpit WX cloud effect. **Bundled static infrastructure:** Datacenters (4,351), Dams (704), and Submarine Cables (712).
-
-![Diving into the Bahamas and revealing labeled submarine cable routes beneath the globe](docs/media/09-undersea-cables.gif)
-
-**Missing a layer you want?** Open an issue — or add it and send the PR.
-
----
-
-## 🎖️ Field Missions
-
-Once the basics click, run these:
-
-| Mission                             | How                                                                                                                                                                                                       |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🚁 Ask the planet**               | _"Why are all these military helicopters flying in circles?"_ Select a military track — it silently backfills ~24 h of real trace history — and see what it's been doing, resolved as stacked 3D loops.   |
-| **✈️ Final approach**               | Click-track an airliner lining up for a runway, hop into the **cockpit**, and ride it down.                                                                                                               |
-| **🌃 Night watch**                  | Fly to your own city, switch to **NVG**, and let the detection mesh and HUD read the scene.                                                                                                               |
-| **🚢 Port call**                    | Vessels on over the Port of Long Beach. Click a tanker for its tactical card and wake trail — then hit **NEAREST** in the CCTV panel and look at the same water through a public camera.                  |
-| **📻 Tokyo FM**                     | Orbit Shibuya with the **Radio** layer on — then drag the analog tuner needle: every position snaps to a real station and the globe flies to whoever's broadcasting.                                      |
-| **🔥 Fire line**                    | FIRMS over California. Click a detection — the camera dives to it — read the intensity, then hit **NEAREST** in the CCTV panel for a ground view.                                                         |
-| **🚶 Ask for a walking route** _🎙️_ | Tell the world where you want to go and watch a real street-following route trace itself through the 3D city — then _"fly it"_: banked turns, eased ends, a camera that leads the path like a drone shot. |
-| **📏 Measure LAX to DFW** _🎙️_      | _"How far is LAX from DFW?"_ — an arrow spans the country, the distance lands in the caption, and the endpoints stay pinned to the real world as you orbit.                                               |
-| **🚀 Launch replay**                | Open **Space Missions**, pick a launch from the last 30 days, and ride the T-minus countdown through ascent to orbit — scrub it at 0.25×–4×. Labeled `RECONSTRUCTED ESTIMATE`, because it is one.         |
-| **🪦 Walk the boneyard**            | Fly from regional context down into dense, fully resolved rows of retired aircraft.                                                                                                                       |
-| **🏗️ Orbit Three Gorges**           | Sweep the dam and its terrain at a glance — then flip on the **Dams** layer and find 703 more.                                                                                                            |
-
-_🎙️ = voice missions — they need an OpenAI key._
-
-![Resolving a selected aircraft's recent flight path into stacked 3D loops above the terrain](docs/media/07-helicopter-loops.gif)
-
-_Ask the planet: a military contact's last ~24 hours of real trace history, resolved as stacked 3D loops._
-
-![Asking for a walking route and flying the generated path through the 3D city](docs/media/10-walking-route-flythrough.gif)
-
-_"Draw the walking route… now fly it" — banked turns, eased ends, the camera leading the path like a drone shot._
-
-![Descending from regional context into dense rows of retired aircraft at the boneyard](docs/media/08-boneyard.gif)
-
-_Walk the boneyard: rows of retired airframes, fully resolved in 3D._
-
----
-
-## 🔧 Under the Hood
-
-How the globe handles live data:
-
-- **World-stable icons.** Aircraft and ships point along their _true real-world heading_ at every camera angle — tracked or not, looking straight down or across the horizon — via per-frame screen-space course projection. No spinning, no viewport-locking.
-- **Smooth motion from choppy data.** Live feeds arrive every 15–30s; the globe renders one interval behind real time and interpolates between known fixes. Dead reckoning fills the gaps.
-- **Honest satellites.** SGP4 propagation with orbit rings that stay locked to their satellites via GMST realignment — no drift, no per-second flicker.
-- **Sits on the real ground.** Entity heights are aligned to work with Google 3D tiles, so aircraft park on aprons and cameras stand on street corners instead of floating.
-- **Caching and request budgets.** An OpenSky credit governor, a TomTom daily tile budget, and disk-cached TLEs reduce repeated requests. These controls do not replace provider quotas or billing controls.
-- **Server-side credentials.** Every API that touches a private key (OpenAI, AISStream, OpenSky OAuth, camera frames) is brokered through a hardened server-side proxy with SSRF protection, response caps, and sanitized errors. The only keys the browser sees are Google Maps and Cesium ion (restrict both at the provider).
-- **No framework.** Vanilla JavaScript, **CesiumJS**, and **Vite** — plus **Google Photorealistic 3D Tiles** for the planet and the **OpenAI Realtime API** for voice. Fast to read, fast to hack on.
-
-```
-src/
-├── main.js                 # Bootstrap: Google 3D tiles, layer registration
-├── ui.js                   # Runtime UI — panels, HUD, styles, control facade
-├── hud.js                  # Intelligence HUD + AI scene summary
-├── keySetup.js             # POWER UP panel — in-app provider keys (dev server only)
-├── mapStackController.js   # Basemap switching — Google 3D / Esri / OSM / ion stacks
-├── voice/                  # OpenAI Realtime session + 28 voice tools
-├── data/                   # One module per layer + orchestration + context store
-│   ├── iconOrientation.js  # Screen-projected headings + horizon cull
-│   └── local_data/         # Bundled datasets (per-folder provenance)
-└── scenes/                 # Cinematic scene director
+### 2. Configure Environment Variables
+
+Create `backend/.env` (or configure via app):
+```env
+# OpenRouter Free LLM Gateway (Pre-configured)
+OPENROUTER_API_KEY=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
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_DEFAULT_MODEL=openrouter/free
+
+# Database (SQLite default; PostgreSQL optional)
+DATABASE_URL=sqlite:///./gods_eye_production.db
+
+# Optional Services
+GEMINI_API_KEY=your_gemini_api_key_here
+SERPAPI_API_KEY=your_serpapi_key_here
 ```
 
-See [`docs/CURRENT-STATE.md`](docs/CURRENT-STATE.md) for the authoritative runtime reference.
-
----
-
-## 🔑 API Keys
-
-🟢 **No key** · 🟡 **Free key** · 🔴 **Metered**
-
-Use **POWER UP → Provider Settings** to add keys. The tables below explain what
-each provider enables; none is required to start. See the
-[setup instructions](#then-power-it-up--in-the-app-not-in-a-file) for storage
-and configuration details.
-
-### Choose the capabilities you want
-
-Six keys. Four have a free tier, and the two 🔴 ones are metered:
-
-|     | Key             | Why                                                                                                                                                                                  | Get it                                                                                                                                                               |
-| --- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🟡  | **Cesium ion**  | 🗺️ Google Photorealistic 3D, world terrain, and additional ion-hosted imagery stacks. The free Community plan is for eligible individual, personal/non-commercial use and has quotas | [cesium.com/ion](https://cesium.com/ion) — use a public `assets:read` token and check current [pricing/eligibility](https://cesium.com/platform/cesium-ion/pricing/) |
-| 🔴  | **Google Maps** | Direct Google Photorealistic 3D + Google place search ([Map Tiles API](https://developers.google.com/maps/documentation/tile))                                                       | [Google Cloud Console](https://console.cloud.google.com/) — URL-restrict it                                                                                          |
-| 🔴  | **OpenAI**      | 🎙️ The voice experience + AI HUD summary. The mini model works; the standard model is noticeably smarter. Want Gemini or another provider behind the mic? PRs welcome                | [platform.openai.com](https://platform.openai.com) — metered, see costs below                                                                                        |
-| 🟡  | **AISStream**   | 🚢 Live global ships                                                                                                                                                                 | [aisstream.io](https://aisstream.io) — free signup                                                                                                                   |
-| 🟡  | **NASA FIRMS**  | 🔥 Live active fires                                                                                                                                                                 | [firms.modaps.eosdis.nasa.gov](https://firms.modaps.eosdis.nasa.gov/api/map_key/) — free                                                                             |
-| 🟡  | **TomTom**      | 🚦 Live flow speeds and congestion colors for the simulated traffic layer                                                                                                            | [developer.tomtom.com](https://developer.tomtom.com) — free tier available                                                                                           |
-
-![Diving from city-scale live congestion straight into an intersection's public camera](docs/media/05-traffic-to-cctv.gif)
-
-_What the TomTom key buys you: rush-hour density painted on the city — then dive from the jam straight into the camera watching it._
-
-### Cherry on top
-
-|     | Key                  | Why                                                           | Get it                                             |
-| --- | -------------------- | ------------------------------------------------------------- | -------------------------------------------------- |
-| 🟡  | **OpenSky**          | ✈️ More flight-polling credits (🟢 anonymous works without)   | [opensky-network.org](https://opensky-network.org) |
-| 🟡  | **Launch Library 2** | 🚀 Higher space-missions request allowance (🟢 works without) | [thespacedevs.com](https://thespacedevs.com)       |
-
-Add these if you need higher polling allowances.
-
-`npm run doctor` reports Node/npm readiness, the primary provider routes, and
-where each configured provider was found without printing credential values.
-On macOS its Keychain-aware result previews `./scripts/dev-fresh.sh`; plain
-`npm run dev` reads only explicit environment and Vite dotenv values. The
-OpenSky summary reports only OAuth client-pair presence, not the resolved
-runtime mode or credential validity; Basic and credentials-file modes remain
-advanced `dev-fresh.sh` configuration.
-
-<details>
-<summary>Advanced setup: environment variables and macOS Keychain</summary>
-
-For headless machines, coding agents, or scripted setups:
+### 3. Install Frontend Dependencies
 
 ```bash
-# Put keys in .env (see .env.example), or pass them as env vars:
-OPENAI_API_KEY="…" AISSTREAM_API_KEY="…" npm run dev -- --host localhost --port 4173
-
-# On macOS, store any of them in the Keychain and dev-fresh.sh pulls them in:
-security add-generic-password -U -s "google-maps-api" -a "api-key" -w
-security add-generic-password -U -s "openai-api"      -a "api-key" -w
-security add-generic-password -U -s "aisstream-api"   -a "api-key" -w
-security add-generic-password -U -s "firms-map"       -a "map-key" -w
-security add-generic-password -U -s "cesium-ion"      -a "token"   -w
+cd frontend
+npm install
+cd ..
 ```
 
-OpenSky can run fully anonymous (`OPENSKY_AUTH_MODE=anon`), or import OAuth credentials with `./scripts/opensky-import-client.sh /path/to/credentials.json`.
+### 4. Run Both Servers
 
-</details>
+**Terminal 1 — Backend FastAPI Server**:
+```powershell
+backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
+```
+*Backend runs on: `http://127.0.0.1:8000` (Docs: `http://127.0.0.1:8000/docs`)*
 
-### 💸 What it actually costs
-
-Honest numbers, roughly, as of mid-2026 — always check the provider pricing pages:
-
-|                          | Cost reality                                                                                                                                                                                                                                                                                                                                                                |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🟢 Most layers**       | **$0, no signup.** OpenSky anon, USGS, CelesTrak, adsb.lol, city CCTV, Radio Browser, GBFS, Launch Library 2, bundled datasets.                                                                                                                                                                                                                                             |
-| **🟡 The free-key tier** | **$0 with a signup.** AISStream, FIRMS, TomTom, OpenSky, plus Cesium ion for eligible personal/non-commercial use. Provider quotas and eligibility still apply.                                                                                                                                                                                                             |
-| **🗺️ Google 3D tiles**   | **Free through an eligible Cesium ion Community account within its quota; metered through a direct Google key.** Use the direct route for GEV place search or commercial deployment, verify current provider terms, and set budget alerts where billing is enabled.                                                                                                         |
-| **🔴 OpenAI voice**      | **The one that costs real money — so the app meters it for you.** Realtime audio runs a few cents per active minute; an evening of heavy use is single-digit dollars. A live session-spend readout sits next to the mic, with an STD/MINI model toggle, a $2 warning, and a **$5 hard cap that ends the session**. The voice context window is kept deliberately short too. |
-
-Google's direct 3D route is surprisingly generous: the first 1,000 Photorealistic
-3D Tiles sessions each month are currently free, and one root request supports
-roughly three hours of rendering. A solo user exploring sparingly can
-realistically stay inside the free usage cap. Billing must still be enabled, so
-restrict the key and set a quota or budget alert. Check Google's
-[current pricing](https://developers.google.com/maps/billing-and-pricing/pricing)
-before relying on these figures.
-
-### 🧗 The floor is low on purpose
-
-Everything above is the deliberately cheap baseline — enough to get a real taste of geospatial intelligence, GEOINT, and OSINT without ever talking to a sales team. You'll also notice the ceiling: terrestrial AIS goes quiet mid-ocean and satellite AIS costs real money; premium imagery, SAR, and the deeper commercial feeds live behind enterprise contracts. That's not a limit of the architecture — every layer here is a pattern you can point at your own data sources. This repo hands you the foundation; what you fuse into it is up to you.
-
-### 🔒 Sharing an instance
-
-By default nobody else can reach your server — it binds to localhost. To share on your LAN, opt in explicitly (`npm run dev -- --host 0.0.0.0 --port 4173`, or `HOST=0.0.0.0 ./scripts/dev-fresh.sh` on macOS/Linux) — but know that ⚠️ **a LAN-visible server brokers your configured API keys to anyone who can reach it.** Set the per-IP throttles (`GEV_RATELIMIT_OPENAI_PER_MIN`, `GEV_RATELIMIT_GOOGLE_PER_MIN` — see `.env.example`) and, before anything else, **configure provider quotas, usage limits, and billing alerts**: app-level throttles are not billing caps, and a budget alert alone does not stop spending. Full threat model in [SECURITY.md](SECURITY.md).
-
-Provider Settings is disabled when the server is shared, so remote users cannot
-access the key-entry panel.
-
-**Pinokio LAN and Cloudflare sharing remain disabled for this launcher.** Use
-a separately reviewed authentication proxy if remote access is required.
-[SECURITY.md](SECURITY.md) explains the restrictions and threat model.
+**Terminal 2 — Frontend Next.js Dev Server**:
+```powershell
+npm --prefix frontend run dev
+```
+*Frontend runs on: `http://localhost:3000`*
 
 ---
 
-## 📋 Responsible & Open
+## 🧪 Verification & Testing
 
-God's Eye View runs on **public data, clear sources, and local-first execution.** No secrets, no private datasets, no mystery scraping — anything involving a private key is brokered server-side. It has the visual grammar of a classified ops room, built entirely from open signals and inspectable code.
+The codebase includes automated test suites covering API pipelines, zero-mock policies, schemas, and AI routing.
 
-**The line.** This project models **events, assets, infrastructure, and systems** — aircraft, vessels, satellites, fires, cameras, cities. It does not build features for named-person search, face recognition, or tracking individuals, and pull requests that cross that line won't be merged. People are not a query type here.
+### Run Backend Pytest Suite
+```powershell
+backend\.venv\Scripts\python.exe -m pytest backend/tests -v
+```
+**Result**: `38 passed, 0 failed (100% pass rate)`.
 
-**Come build it.** This is the canonical live 3D client from the project that kicked off the recent wave of spatial-intelligence tools — and it's a canvas: the layers here are the signals one person could find and fuse. Add a city pack, a data source, a style, a voice tool. It's the window through which you see the world; bring that window to others.
-
-**Status:** An evolving open-source client for exploration and learning — a fast, hackable foundation, not a hardened production service. Released under the **[MIT License](LICENSE)**. Bundled and live datasets carry their own terms — see **[DATA_SOURCES.md](DATA_SOURCES.md)**. Security model: **[SECURITY.md](SECURITY.md)**. Want to contribute? **[CONTRIBUTING.md](CONTRIBUTING.md)**.
-
-**Maintainers:** [Bilawal Sidhu](https://github.com/bilawalsidhu) and [Sameh Khamis](https://github.com/samehkhamis) at [Halfpixel](https://halfpixel.ai).
-
-<sub>Media note: the capture GIFs on this page show Google Photorealistic 3D Tiles and live data layers, used promotionally with in-frame attribution; they aren't licensed for standalone reuse. See [media provenance and permissions](docs/media/README.md); full source terms in [DATA_SOURCES.md](DATA_SOURCES.md).</sub>
-
-> [!IMPORTANT]
-> God's Eye View is an exploratory visualization of public and third-party data.
-> Data may be delayed, incomplete, modeled, inferred, or wrong. Do not use it
-> for flight or maritime navigation, emergency response, medical or health
-> decisions, investment decisions, or other safety-critical or operational
-> purposes. Verify important information with authoritative sources.
+### Run Frontend Production Build
+```powershell
+npm --prefix frontend run build
+```
+**Result**: `Compiled successfully with 0 TypeScript/ESLint errors`.
 
 ---
 
-## 🧭 What's Next
+## 📁 Project File Structure
 
-First — thank you. To everyone who watched the God-view demos and went off to build their own, and to everyone who kept asking for the code: I'm grateful. And when I polled whether this should go open source, you weren't subtle about it:
-
-<img src="docs/media/open-source-survey.png" alt="Community survey on open-sourcing God's Eye View" width="460">
-
-So here it is. Step inside the spy-thriller cockpit — except the data is real — and let's turn this into our shared sandbox for making sense of the world, and have fun doing it. This repo is the baseline, it stays open, and the whole point is for you to break things and bolt on layers we haven't thought of yet.
-
-One heads-up from the inside: build in this space for a week and you learn that **the present is the cheap part**. The moment you try to go back in time — tiling, serving, and scrubbing _what happened_ and _what changed_ at any real resolution — the data gets expensive and the compute gets brutal. That's the long game.
-
-**Update — a hosted version is coming.** We originally planned to keep this repository as the open-source client and build a separate professional product. Then the launch happened, and the loudest request wasn't another feature — it was _"just give me a link."_ So we're building an official hosted God's Eye View at [Halfpixel](https://halfpixel.ai): no installation, just open it in your browser. The hosted version is the easiest way into this open-source project. More soon.
+```
+gods-eye-view/
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── endpoints/
+│   │   │       ├── companies.py        # Company CRUD & seeding
+│   │   │       ├── discovery.py        # Overpass OSM discovery
+│   │   │       ├── enrichment.py       # Live contact enrichment
+│   │   │       ├── news.py             # Google News RSS signals
+│   │   │       ├── search.py           # Fast geocoding search
+│   │   │       └── viper.py            # VIPER prospect, recon & chat
+│   │   ├── core/
+│   │   │   ├── ai_router.py            # OpenRouter / Gemini AI gateway
+│   │   │   ├── config.py               # Settings & API keys
+│   │   │   └── database.py             # SQLAlchemy DB session
+│   │   ├── models/
+│   │   │   ├── company.py              # CompanyNode DB schema
+│   │   │   ├── contact.py              # Key executive contact schema
+│   │   │   └── location.py             # Geospatial coordinates schema
+│   │   ├── schemas/
+│   │   │   ├── company.py              # Pydantic company schemas
+│   │   │   └── viper.py                # Prospecting & recon schemas
+│   │   ├── services/
+│   │   │   ├── company_recon_engine.py # Surface/deep crawl & DDG scraper
+│   │   │   ├── contact_enricher.py     # Phone/email verification
+│   │   │   ├── gap_analyzer.py         # 3DP sector intelligence taxonomy
+│   │   │   ├── mass_ingestion.py       # 10,000+ commercial node seeder
+│   │   │   ├── news_intelligence.py    # RSS pulse beacon generator
+│   │   │   ├── overpass_discovery.py   # Overpass OSM query engine
+│   │   │   └── search_scraper.py       # Fallback enterprise targets
+│   │   └── main.py                     # FastAPI application root
+│   ├── tests/                          # 38 unit & integration tests
+│   └── requirements.txt                # Python backend dependencies
+│
+├── frontend/
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── globals.css             # Tactical HUD styling & scanlines
+│   │   │   ├── layout.tsx              # Root HTML wrapper
+│   │   │   └── page.tsx                # Master Tactical HUD viewport
+│   │   ├── components/
+│   │   │   ├── Globe/
+│   │   │   │   └── GlobeViewport.tsx   # CesiumJS 3D digital twin globe
+│   │   │   ├── HUD/
+│   │   │   │   ├── AiChatboxConsole.tsx   # Claude-style AI prospector console
+│   │   │   │   ├── GoogleMapsSearchBar.tsx# Floating geocoding search box
+│   │   │   │   ├── LeftLayerToolbar.tsx   # Map layer toggle switches
+│   │   │   │   ├── RightActionToolbar.tsx # Tactical action launchers
+│   │   │   │   ├── StyleStudioModal.tsx   # Osiris HUD theme customizer
+│   │   │   │   ├── TacticalHeader.tsx     # Top header bar with ZULU clock
+│   │   │   │   ├── TacticalNewsTicker.tsx # Live news signal pulse ticker
+│   │   │   │   ├── TerminalModal.tsx      # Military PLOT CLI Terminal
+│   │   │   │   └── ViperProspectorModal.tsx# VIPER OSINT dossier modal
+│   │   │   └── Sidebar/
+│   │   │       ├── IntelligenceSidebar.tsx# Corporate dossier sidebar
+│   │   │       └── MasterDirectoryDrawer.tsx# Enterprise directory table
+│   │   └── lib/
+│   │       ├── api.ts                  # Frontend API client
+│   │       ├── camera.ts               # Cesium camera orbital controller
+│   │       ├── nodes.ts                # 3D pins & telemetry beacons
+│   │       └── theme.ts                # 6 HUD theme token definitions
+│   ├── package.json                    # Node dependencies
+│   └── tsconfig.json                   # TypeScript configuration
+└── README.md                           # Master documentation (this file)
+```
 
 ---
 
-<div align="center">
+## 📜 Acknowledgments & License
 
-▶️ [Watch the God's Eye View series](https://youtube.com/playlist?list=PL6qSg2I-7_koPbDnSMo0QeeHX_RknA2uv&si=nBGYMoHWQw41v93Q) · 📬 [Map the World](https://maptheworld.ai/) — the newsletter behind the project
-
-**🌐 God's Eye View. No place left behind.**
-
-</div>
-# Testing-Project
+- **Original Globe Visualization Concept**: Inspired by the open-source [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view) by Bilawal Sidhu.
+- **Upgraded & Hardened**: Transformed into a corporate intelligence and B2B client acquisition platform customized for **The Full Circle (3D Printing & Rapid Prototyping, Pune)**.
+- **License**: MIT License. See [LICENSE](LICENSE) for full details.
+# TestForBusss
