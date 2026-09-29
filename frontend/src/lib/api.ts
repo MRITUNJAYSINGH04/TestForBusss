@@ -384,10 +384,62 @@ export async function reconCompanyApi(data: {
   return await res.json();
 }
 
+export interface OpenCorporatesData {
+  company_name: string;
+  company_number?: string;
+  jurisdiction_code?: string;
+  incorporation_date?: string;
+  dissolution_date?: string;
+  company_type?: string;
+  current_status?: string;
+  registered_address?: string;
+  opencorporates_url?: string;
+  confidence_score?: number;
+  data_source?: string;
+  verified?: boolean;
+}
+
+export interface RedditDiscussion {
+  title: string;
+  subreddit: string;
+  author: string;
+  score: number;
+  num_comments: number;
+  permalink: string;
+  url: string;
+  created_utc?: string;
+  selftext?: string;
+}
+
+export interface CommonCrawlRecord {
+  url: string;
+  timestamp: string;
+  parsed_date?: string;
+  mime?: string;
+  status?: string;
+  length?: number;
+  offset?: number;
+  filename?: string;
+  archive_index?: string;
+}
+
+export interface ChatAiResponse {
+  status: string;
+  message: string;
+  response: string;
+  model: string;
+  plotted_node?: any;
+  wikidata?: any;
+  gdelt_signals?: GdeltNewsSignal[];
+  opencorporates?: OpenCorporatesData | null;
+  reddit_discussions?: RedditDiscussion[];
+  common_crawl?: CommonCrawlRecord[];
+}
+
 export async function chatAiApi(data: {
   message: string;
   system_prompt?: string;
-}): Promise<{ status: string; message: string; response: string; model: string; plotted_node?: any }> {
+}): Promise<ChatAiResponse> {
   const res = await fetch(`${BACKEND_URL}/viper/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -432,6 +484,11 @@ export interface PlotReconResponse {
   open_source_resources: string[];
   lead_match_score: number;
   confidence_level: string;
+  wikidata?: any;
+  gdelt_signals?: GdeltNewsSignal[];
+  opencorporates?: OpenCorporatesData | null;
+  reddit_discussions?: RedditDiscussion[];
+  common_crawl?: CommonCrawlRecord[];
   node: any;
   telemetry_logs: ViperTelemetryStep[];
 }
@@ -450,5 +507,106 @@ export async function plotCompanyReconApi(data: {
   }
   return await res.json();
 }
+
+// -----------------------------------------------------------------------------
+// GDELT 2.0 Live Signals & Wikidata Knowledge Graph APIs
+// -----------------------------------------------------------------------------
+
+export interface GdeltNewsSignal {
+  title: string;
+  url: string;
+  seendate: string;
+  domain: string;
+  language: string;
+  source_country: string;
+  signal_type: string;
+  source: string;
+}
+
+export async function fetchGdeltSignalsApi(query: string, limit: number = 10): Promise<{
+  status: string;
+  query: string;
+  count: number;
+  signals: GdeltNewsSignal[];
+}> {
+  const params = new URLSearchParams({ q: query, limit: String(limit) });
+  const res = await fetch(`${BACKEND_URL}/gdelt/signals?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch GDELT signals: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+export async function searchWikidataApi(query: string, limit: number = 10) {
+  const params = new URLSearchParams({ q: query, limit: String(limit) });
+  const res = await fetch(`${BACKEND_URL}/gdelt/wikidata/search?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Wikidata search failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+export async function fetchWikidataEntityApi(entityId: string) {
+  const res = await fetch(`${BACKEND_URL}/gdelt/wikidata/entity/${entityId}`);
+  if (!res.ok) {
+    throw new Error(`Wikidata entity fetch failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+export async function enrichWikidataApi(query: string) {
+  const params = new URLSearchParams({ q: query });
+  const res = await fetch(`${BACKEND_URL}/gdelt/wikidata/enrich?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Wikidata enrichment failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+// -----------------------------------------------------------------------------
+// OpenCorporates, Reddit & Common Crawl Public APIs
+// -----------------------------------------------------------------------------
+
+export async function fetchOpenCorporatesApi(query: string): Promise<{
+  status: string;
+  query: string;
+  result: OpenCorporatesData | null;
+}> {
+  const params = new URLSearchParams({ q: query });
+  const res = await fetch(`${BACKEND_URL}/gdelt/opencorporates?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`OpenCorporates fetch failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+export async function fetchRedditDiscussionsApi(query: string, limit: number = 8): Promise<{
+  status: string;
+  query: string;
+  count: number;
+  discussions: RedditDiscussion[];
+}> {
+  const params = new URLSearchParams({ q: query, limit: String(limit) });
+  const res = await fetch(`${BACKEND_URL}/gdelt/reddit?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Reddit discussions fetch failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
+export async function fetchCommonCrawlArchivesApi(domain: string, limit: number = 10): Promise<{
+  status: string;
+  domain: string;
+  count: number;
+  archives: CommonCrawlRecord[];
+}> {
+  const params = new URLSearchParams({ domain: domain, limit: String(limit) });
+  const res = await fetch(`${BACKEND_URL}/gdelt/commoncrawl?${params.toString()}`);
+  if (!res.ok) {
+    throw new Error(`Common Crawl fetch failed: ${res.statusText}`);
+  }
+  return await res.json();
+}
+
 
 

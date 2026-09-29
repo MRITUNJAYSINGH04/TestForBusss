@@ -1124,7 +1124,7 @@ class CorporateSearchScraper:
                     break
                 try:
                     logger.info(f"Querying live web search engine for authentic leads matching: '{q}'")
-                    async with httpx.AsyncClient(timeout=12.0, follow_redirects=True, headers=self.headers) as client:
+                    async with httpx.AsyncClient(timeout=4.0, follow_redirects=True, headers=self.headers) as client:
                         ddg_resp = await client.get(
                             "https://html.duckduckgo.com/html/",
                             params={"q": q},
@@ -1334,7 +1334,7 @@ class CorporateSearchScraper:
 
         try:
             async with httpx.AsyncClient(
-                timeout=settings.REQUEST_TIMEOUT_SECONDS,
+                timeout=4.0,
                 follow_redirects=True,
                 headers=self.headers,
                 verify=False,

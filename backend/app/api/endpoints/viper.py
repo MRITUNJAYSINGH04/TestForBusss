@@ -3,6 +3,7 @@ viper.py — FastAPI endpoints for VIPER OSINT, Claude-style MCP Connector,
 Deep Company Reconnaissance, and B2B Prospecting.
 """
 
+import re
 import logging
 from typing import Optional, Dict, Any, List
 from fastapi import APIRouter, HTTPException, Depends
@@ -154,6 +155,11 @@ async def plot_company_target(req: ViperPlotRequest, db: Session = Depends(get_d
         "open_source_resources": intel.get("open_source_resources", []),
         "lead_match_score": node.lead_match_score,
         "confidence_level": intel.get("confidence_level", "VERIFIED"),
+        "wikidata": intel.get("wikidata"),
+        "gdelt_signals": intel.get("gdelt_signals", []),
+        "opencorporates": intel.get("opencorporates"),
+        "reddit_discussions": intel.get("reddit_discussions", []),
+        "common_crawl": intel.get("common_crawl", []),
         "node": node_dict,
         "telemetry_logs": telemetry_logs,
     }
@@ -316,24 +322,39 @@ async def chat_with_ai(req: ViperChatRequest, db: Session = Depends(get_db)):
 
     clean_msg = req.message.strip()
     p_lower = clean_msg.lower()
-    is_plot_cmd = p_lower.startswith("plot ") or p_lower.startswith("/plot ")
-    is_recon_target = is_plot_cmd or any(kw in p_lower for kw in [
-        "full circle", "thefullcircle", "the full circle", "flexisales", "persistent",
-        "find ", "who is ", "search ", "look up ", "recon "
-    ])
+
+    # Extract target entity by stripping common prefixes, conversational greetings, and inquiry patterns
+    target_name = clean_msg
+    target_name = re.sub(r'^(?:hii+|hey+|hello+|hi+|please|kindly|can you|could you|would you)\s+', '', target_name, flags=re.IGNORECASE).strip()
+    inquiry_patterns = [
+        r'^(?:give me intelligence on|give me info on|give me information on|intelligence on|info on|information on|details on|details of)\s+',
+        r'^(?:tell me about|what do you know about|what is|who is|look up|search for|search|find|recon|reconnaissance on|plot|/plot|show me|track|analyze|analyse|audit|inspect)\s+',
+        r'^(?:intelligence on|info on|information on|details on|details of)\s+',
+    ]
+    for pat in inquiry_patterns:
+        target_name = re.sub(pat, '', target_name, flags=re.IGNORECASE).strip()
+    target_name = target_name.rstrip('?!. ').strip()
+
+    # Determine if this message is querying a company or business subject
+    is_greeting_only = target_name.lower() in ["hi", "hello", "hey", "help", "who are you", "what can you do"]
+    is_recon_target = not is_greeting_only and len(target_name) >= 2
 
     plotted_node_dict = None
-    if is_recon_target:
-        target_name = clean_msg
-        # Normalize target name by stripping conversational noise
-        target_name = re.sub(r'^(?:hii|hey|hello|hi|please|kindly)\s+', '', target_name, flags=re.IGNORECASE).strip()
-        for prefix in ["plot ", "/plot ", "find ", "who is ", "search ", "look up ", "recon "]:
-            if target_name.lower().startswith(prefix):
-                target_name = target_name[len(prefix):].strip()
-                break
+    wikidata_payload = None
+    gdelt_signals_payload = []
+    opencorporates_payload = None
+    reddit_payload = []
+    common_crawl_payload = []
 
+    if is_recon_target:
         try:
             intel = await discover_company_web_footprint(target_name, city_hint="Pune")
+            wikidata_payload = intel.get("wikidata")
+            gdelt_signals_payload = intel.get("gdelt_signals", [])
+            opencorporates_payload = intel.get("opencorporates")
+            reddit_payload = intel.get("reddit_discussions", [])
+            common_crawl_payload = intel.get("common_crawl", [])
+
             node = upsert_recon_company_to_database(db, intel)
             plotted_node_dict = {
                 "id": str(node.id),
@@ -358,6 +379,11 @@ async def chat_with_ai(req: ViperChatRequest, db: Session = Depends(get_db)):
                 "open_source_resources": intel.get("open_source_resources", []),
                 "lead_match_score": node.lead_match_score,
                 "confidence_level": intel.get("confidence_level", "VERIFIED"),
+                "wikidata": wikidata_payload,
+                "gdelt_signals": gdelt_signals_payload,
+                "opencorporates": opencorporates_payload,
+                "reddit_discussions": reddit_payload,
+                "common_crawl": common_crawl_payload,
             }
         except Exception as pe:
             logger.warning(f"[VIPER Chat PLOT] Auto-recon notice: {pe}")
@@ -395,6 +421,11 @@ async def chat_with_ai(req: ViperChatRequest, db: Session = Depends(get_db)):
             "response": reply,
             "model": "openrouter/free",
             "plotted_node": plotted_node_dict,
+            "wikidata": wikidata_payload,
+            "gdelt_signals": gdelt_signals_payload,
+            "opencorporates": opencorporates_payload,
+            "reddit_discussions": reddit_payload,
+            "common_crawl": common_crawl_payload,
         }
     except Exception as e:
         logger.error(f"[VIPER Chat API] Error: {e}", exc_info=True)
@@ -414,6 +445,11 @@ async def chat_with_ai(req: ViperChatRequest, db: Session = Depends(get_db)):
             "response": fallback_resp,
             "model": "local-fallback",
             "plotted_node": plotted_node_dict,
+            "wikidata": wikidata_payload,
+            "gdelt_signals": gdelt_signals_payload,
+            "opencorporates": opencorporates_payload,
+            "reddit_discussions": reddit_payload,
+            "common_crawl": common_crawl_payload,
         }
 
 

@@ -25,6 +25,12 @@ import {
   ShieldCheck,
   ShieldAlert,
   UserCheck,
+  Globe,
+  Radio,
+  Building,
+  MessageSquare,
+  Archive,
+  FileCheck,
 } from 'lucide-react';
 import {
   prospectViperApi,
@@ -35,6 +41,10 @@ import {
   ViperExecutive,
   ViperTelemetryStep,
   ViperProspectResponse,
+  GdeltNewsSignal,
+  OpenCorporatesData,
+  RedditDiscussion,
+  CommonCrawlRecord,
 } from '@/lib/api';
 import { ThemeConfig } from '@/lib/theme';
 
@@ -46,6 +56,11 @@ export interface ChatMessage {
   telemetryLogs?: ViperTelemetryStep[];
   leads?: ViperLead[];
   plottedTarget?: PlotReconResponse;
+  wikidata?: any;
+  gdeltSignals?: GdeltNewsSignal[];
+  opencorporates?: OpenCorporatesData | null;
+  redditDiscussions?: RedditDiscussion[];
+  commonCrawl?: CommonCrawlRecord[];
   model?: string;
 }
 
@@ -256,6 +271,11 @@ export default function AiChatboxConsole({
           text: `🎯 **TARGET ACQUIRED & PLOTTED ON 3D GLOBE**\n\n**${plotResp.company_name}** located at **${plotResp.hq_address}** (${plotResp.latitude}°N, ${plotResp.longitude}°E).\n\nVerified physical coordinates, direct phone lines, emails, decision-makers, and open-source footprints resolved.`,
           telemetryLogs: plotResp.telemetry_logs,
           plottedTarget: plotResp,
+          wikidata: plotResp.wikidata,
+          gdeltSignals: plotResp.gdelt_signals,
+          opencorporates: plotResp.opencorporates,
+          redditDiscussions: plotResp.reddit_discussions,
+          commonCrawl: plotResp.common_crawl,
           model: 'openrouter/free',
         };
         setMessages((prev) => [...prev, assistantMsg]);
@@ -273,6 +293,11 @@ export default function AiChatboxConsole({
           text: (resp as any).ai_analysis || `VIPER reconnaissance complete. Identified ${resp.leads.length} verified B2B targets with strict zero-fake provenance.`,
           telemetryLogs: resp.telemetry_logs,
           leads: resp.leads,
+          wikidata: (resp as any).wikidata,
+          gdeltSignals: (resp as any).gdelt_signals,
+          opencorporates: (resp as any).opencorporates,
+          redditDiscussions: (resp as any).reddit_discussions,
+          commonCrawl: (resp as any).common_crawl,
           model: 'openrouter/free',
         };
         setMessages((prev) => [...prev, assistantMsg]);
@@ -290,6 +315,20 @@ export default function AiChatboxConsole({
           sender: 'assistant',
           timestamp: new Date().toISOString().slice(11, 19) + 'Z',
           text: chatResp.response,
+          plottedTarget: chatResp.plotted_node ? {
+            ...chatResp.plotted_node,
+            company_name: chatResp.plotted_node.name,
+            telemetry_logs: [],
+            plotted: true,
+            status: 'SUCCESS',
+            query: activeText,
+            node: chatResp.plotted_node,
+          } : undefined,
+          wikidata: chatResp.wikidata || chatResp.plotted_node?.wikidata || chatResp.plotted_node?.scraped_metadata?.wikidata,
+          gdeltSignals: chatResp.gdelt_signals || chatResp.plotted_node?.gdelt_signals || chatResp.plotted_node?.scraped_metadata?.gdelt_signals,
+          opencorporates: chatResp.opencorporates || chatResp.plotted_node?.opencorporates || chatResp.plotted_node?.scraped_metadata?.opencorporates,
+          redditDiscussions: chatResp.reddit_discussions || chatResp.plotted_node?.reddit_discussions || chatResp.plotted_node?.scraped_metadata?.reddit_discussions,
+          commonCrawl: chatResp.common_crawl || chatResp.plotted_node?.common_crawl || chatResp.plotted_node?.scraped_metadata?.common_crawl,
           model: chatResp.model || 'openrouter/free',
         };
         setMessages((prev) => [...prev, assistantMsg]);
@@ -660,6 +699,434 @@ export default function AiChatboxConsole({
                         </div>
                       </div>
                     )}
+                  </div>
+                </div>
+              )}
+
+              {/* Structured Wikidata Knowledge Graph Card */}
+              {msg.wikidata && (
+                <div className="w-full mt-2 space-y-2.5">
+                  <div className="p-4 rounded-xl bg-black/85 border border-cyan-500/50 shadow-2xl space-y-3 backdrop-blur-md">
+                    {/* Header Row */}
+                    <div className="flex items-start justify-between gap-2 border-b border-white/10 pb-2.5">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-cyan-500/15 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shrink-0">
+                          <Globe className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white tracking-wide">
+                              {msg.wikidata.label || msg.wikidata.official_name || 'WIKIDATA ENTERPRISE ENTITY'}
+                            </span>
+                            {msg.wikidata.entity_id && (
+                              <a
+                                href={`https://www.wikidata.org/wiki/${msg.wikidata.entity_id}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 flex items-center gap-0.5 transition-colors"
+                              >
+                                <span>{msg.wikidata.entity_id}</span>
+                                <ExternalLink className="w-2 h-2" />
+                              </a>
+                            )}
+                          </div>
+                          <div className="text-[10px] text-zinc-400 mt-0.5 line-clamp-1">
+                            {msg.wikidata.description || 'Verified Open Knowledge Graph Record (query.wikidata.org)'}
+                          </div>
+                        </div>
+                      </div>
+
+                      {onFlyToNode && msg.wikidata.latitude && msg.wikidata.longitude && (
+                        <button
+                          onClick={() => onFlyToNode(msg.wikidata.latitude, msg.wikidata.longitude, msg.wikidata.label || 'Wikidata Entity')}
+                          className="px-2.5 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 text-[10px] font-bold flex items-center gap-1.5 transition-all shrink-0"
+                          title="Fly Camera to Coordinates on 3D Globe"
+                        >
+                          <Compass className="w-3.5 h-3.5" />
+                          <span>FLY TO GLOBE</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Properties Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-[10px]">
+                      {msg.wikidata.website && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">OFFICIAL WEBSITE</span>
+                          <a
+                            href={msg.wikidata.website}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-cyan-300 hover:underline flex items-center gap-1 truncate mt-0.5 font-semibold"
+                          >
+                            <span className="truncate">{msg.wikidata.website.replace('https://', '').replace('http://', '').replace('www.', '')}</span>
+                            <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                          </a>
+                        </div>
+                      )}
+
+                      {msg.wikidata.hq_location && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">HEADQUARTERS</span>
+                          <span className="text-zinc-200 block truncate mt-0.5 font-semibold">
+                            {msg.wikidata.hq_location}{msg.wikidata.country ? `, ${msg.wikidata.country}` : ''}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.wikidata.founders && msg.wikidata.founders.length > 0 && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">FOUNDED BY</span>
+                          <span className="text-amber-300 block truncate mt-0.5 font-bold">
+                            {msg.wikidata.founders.join(', ')}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.wikidata.ceo && msg.wikidata.ceo.length > 0 && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">CHIEF EXECUTIVE (CEO)</span>
+                          <span className="text-emerald-400 block truncate mt-0.5 font-bold">
+                            {msg.wikidata.ceo.join(', ')}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.wikidata.inception && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">INCEPTION DATE</span>
+                          <span className="text-zinc-200 block truncate mt-0.5 font-semibold">
+                            {msg.wikidata.inception}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.wikidata.latitude && msg.wikidata.longitude && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">VERIFIED GPS COORDS</span>
+                          <span className="text-cyan-400 block truncate mt-0.5 font-semibold">
+                            {Number(msg.wikidata.latitude).toFixed(4)}°N, {Number(msg.wikidata.longitude).toFixed(4)}°E
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Structured GDELT Project 2.0 Live Signals Card */}
+              {msg.gdeltSignals && msg.gdeltSignals.length > 0 && (
+                <div className="w-full mt-2 space-y-2.5">
+                  <div className="p-4 rounded-xl bg-black/85 border border-emerald-500/50 shadow-2xl space-y-3 backdrop-blur-md">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+                          <Radio className="w-4 h-4 animate-pulse" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white tracking-wide">
+                              GDELT PROJECT 2.0 // LIVE SIGNALS
+                            </span>
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                              {msg.gdeltSignals.length} DETECTED
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-zinc-400 mt-0.5">
+                            Real-Time Global Event, Language & Tone Newsfeed
+                          </div>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 animate-pulse">
+                        LIVE RADAR
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                      {msg.gdeltSignals.map((sig, sIdx) => {
+                        const signalColor =
+                          sig.signal_type === 'FUNDING'
+                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                            : sig.signal_type === 'ACQUISITION'
+                            ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                            : sig.signal_type === 'PARTNERSHIP'
+                            ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
+                            : sig.signal_type === 'EXPANSION'
+                            ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                            : sig.signal_type === 'LEADERSHIP'
+                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                            : 'bg-white/10 text-zinc-300 border-white/15';
+
+                        return (
+                          <div
+                            key={sIdx}
+                            className="p-2.5 rounded-lg bg-white/5 border border-white/5 hover:border-emerald-500/40 transition-all flex items-start justify-between gap-2"
+                          >
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 mb-1">
+                                <span className={`px-1.5 py-0.2 rounded text-[8px] font-bold border ${signalColor}`}>
+                                  {sig.signal_type}
+                                </span>
+                                <span className="text-[9px] text-zinc-400 truncate">
+                                  {sig.domain || 'Global Media'} • {sig.seendate ? String(sig.seendate).slice(0, 10) : 'Recent'}
+                                </span>
+                              </div>
+                              <a
+                                href={sig.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-[11px] text-zinc-200 hover:text-cyan-300 line-clamp-2 hover:underline leading-tight font-medium"
+                              >
+                                {sig.title}
+                              </a>
+                            </div>
+                            <a
+                              href={sig.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-cyan-300 shrink-0"
+                              title="Open verified news article"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Structured OpenCorporates Legal Entity Card */}
+              {msg.opencorporates && (
+                <div className="w-full mt-2 space-y-2.5">
+                  <div className="p-4 rounded-xl bg-black/85 border border-blue-500/50 shadow-2xl space-y-3 backdrop-blur-md">
+                    <div className="flex items-start justify-between gap-2 border-b border-white/10 pb-2.5">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
+                          <Building className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white tracking-wide">
+                              {msg.opencorporates.company_name}
+                            </span>
+                            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/40 flex items-center gap-1">
+                              <FileCheck className="w-2.5 h-2.5" />
+                              <span>{msg.opencorporates.company_number || 'CIN REGISTRY'}</span>
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-zinc-400 mt-0.5">
+                            OpenCorporates Official Registry & Legal Standing
+                          </div>
+                        </div>
+                      </div>
+
+                      {msg.opencorporates.opencorporates_url && (
+                        <a
+                          href={msg.opencorporates.opencorporates_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-2.5 py-1.5 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/50 text-[10px] font-bold flex items-center gap-1.5 transition-all shrink-0"
+                          title="View Verified Filing on OpenCorporates"
+                        >
+                          <span>VIEW FILING</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-[10px]">
+                      <div className="p-2 rounded bg-white/5 border border-white/5">
+                        <span className="text-zinc-500 block text-[9px] font-bold uppercase">CURRENT STATUS</span>
+                        <div className="mt-0.5 flex items-center gap-1.5">
+                          <span className={`w-2 h-2 rounded-full ${
+                            msg.opencorporates.current_status?.toLowerCase().includes('active') ||
+                            msg.opencorporates.current_status?.toLowerCase().includes('live')
+                              ? 'bg-emerald-400 animate-pulse'
+                              : 'bg-zinc-400'
+                          }`} />
+                          <span className="text-white font-semibold capitalize">
+                            {msg.opencorporates.current_status || 'Verified Entity'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-2 rounded bg-white/5 border border-white/5">
+                        <span className="text-zinc-500 block text-[9px] font-bold uppercase">JURISDICTION</span>
+                        <span className="text-blue-300 block truncate mt-0.5 font-bold uppercase">
+                          {msg.opencorporates.jurisdiction_code || 'GLOBAL'}
+                        </span>
+                      </div>
+
+                      {msg.opencorporates.company_type && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">COMPANY TYPE</span>
+                          <span className="text-zinc-200 block truncate mt-0.5 font-semibold">
+                            {msg.opencorporates.company_type}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.opencorporates.incorporation_date && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">INCORPORATION DATE</span>
+                          <span className="text-zinc-200 block truncate mt-0.5 font-semibold">
+                            {msg.opencorporates.incorporation_date}
+                          </span>
+                        </div>
+                      )}
+
+                      {msg.opencorporates.registered_address && (
+                        <div className="p-2 rounded bg-white/5 border border-white/5 sm:col-span-2">
+                          <span className="text-zinc-500 block text-[9px] font-bold uppercase">REGISTERED OFFICE ADDRESS</span>
+                          <span className="text-zinc-300 block truncate mt-0.5 font-semibold">
+                            {msg.opencorporates.registered_address}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Structured Reddit Community Discussions Card */}
+              {msg.redditDiscussions && msg.redditDiscussions.length > 0 && (
+                <div className="w-full mt-2 space-y-2.5">
+                  <div className="p-4 rounded-xl bg-black/85 border border-orange-500/50 shadow-2xl space-y-3 backdrop-blur-md">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/40 flex items-center justify-center text-orange-400 shrink-0">
+                          <MessageSquare className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white tracking-wide">
+                              REDDIT PUBLIC DISCUSSIONS // COMMUNITY PULSE
+                            </span>
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                              {msg.redditDiscussions.length} THREADS
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-zinc-400 mt-0.5">
+                            Real-time developer sentiment, employee reviews & public discussions
+                          </div>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30">
+                        PUBLIC PULSE
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                      {msg.redditDiscussions.map((disc, dIdx) => (
+                        <div
+                          key={dIdx}
+                          className="p-2.5 rounded-lg bg-white/5 border border-white/5 hover:border-orange-500/40 transition-all flex items-start justify-between gap-2"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                                r/{disc.subreddit}
+                              </span>
+                              <span className="text-[9px] text-zinc-400">
+                                ▲ {disc.score} • {disc.num_comments} comments {disc.author ? `• u/${disc.author}` : ''}
+                              </span>
+                            </div>
+                            <a
+                              href={disc.url || disc.permalink}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[11px] text-zinc-200 hover:text-orange-300 line-clamp-2 hover:underline leading-tight font-medium"
+                            >
+                              {disc.title}
+                            </a>
+                          </div>
+                          <a
+                            href={disc.url || disc.permalink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-orange-300 shrink-0"
+                            title="Open Reddit thread"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Structured Common Crawl Web Archives Card */}
+              {msg.commonCrawl && msg.commonCrawl.length > 0 && (
+                <div className="w-full mt-2 space-y-2.5">
+                  <div className="p-4 rounded-xl bg-black/85 border border-purple-500/50 shadow-2xl space-y-3 backdrop-blur-md">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0">
+                          <Archive className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-black text-white tracking-wide">
+                              COMMON CRAWL // ARCHIVED WEB FOOTPRINTS
+                            </span>
+                            <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                              {msg.commonCrawl.length} SNAPSHOTS
+                            </span>
+                          </div>
+                          <div className="text-[10px] text-zinc-400 mt-0.5">
+                            Petabyte-scale historical web crawling indices & verified endpoints
+                          </div>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                        WEB ARCHIVE
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                      {msg.commonCrawl.map((crawl, cIdx) => (
+                        <div
+                          key={cIdx}
+                          className="p-2.5 rounded-lg bg-white/5 border border-white/5 hover:border-purple-500/40 transition-all flex items-start justify-between gap-2"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                {crawl.archive_index || 'CC-MAIN'}
+                              </span>
+                              <span className="text-[9px] text-zinc-400 font-mono">
+                                {crawl.parsed_date || crawl.timestamp || 'Historical'}
+                              </span>
+                              {crawl.mime && (
+                                <span className="text-[8px] px-1 py-0.2 rounded bg-white/10 text-zinc-300 font-mono">
+                                  {crawl.mime}
+                                </span>
+                              )}
+                            </div>
+                            <a
+                              href={crawl.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[11px] text-zinc-200 hover:text-purple-300 line-clamp-1 hover:underline font-mono"
+                            >
+                              {crawl.url}
+                            </a>
+                          </div>
+                          <a
+                            href={crawl.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="p-1 rounded hover:bg-white/10 text-zinc-400 hover:text-purple-300 shrink-0"
+                            title="Open verified archived URL"
+                          >
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}

@@ -14,6 +14,7 @@ import {
   Compass,
   Camera,
   Sparkles,
+  Globe,
 } from 'lucide-react';
 import { ThemeConfig } from '@/lib/theme';
 
@@ -32,6 +33,8 @@ interface RightActionToolbarProps {
   isViperOpen?: boolean;
   onOpenAiChatbox?: () => void;
   isAiChatboxOpen?: boolean;
+  onToggleOsintDrawer?: () => void;
+  isOsintDrawerOpen?: boolean;
 }
 
 export default function RightActionToolbar({
@@ -49,6 +52,8 @@ export default function RightActionToolbar({
   isViperOpen = false,
   onOpenAiChatbox,
   isAiChatboxOpen = false,
+  onToggleOsintDrawer,
+  isOsintDrawerOpen = false,
 }: RightActionToolbarProps) {
   const actions = [
     {
@@ -57,6 +62,13 @@ export default function RightActionToolbar({
       icon: <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />,
       onClick: onOpenAiChatbox || onOpenViper || (() => {}),
       active: isAiChatboxOpen || isViperOpen,
+    },
+    {
+      id: 'osint_drawer',
+      label: 'Global OSINT Radar (Wikidata, GDELT 2.0, OpenCorporates, Reddit, Common Crawl)',
+      icon: <Globe className="w-4 h-4 text-cyan-400 animate-pulse" />,
+      onClick: onToggleOsintDrawer || (() => {}),
+      active: isOsintDrawerOpen,
     },
     {
       id: 'reset',

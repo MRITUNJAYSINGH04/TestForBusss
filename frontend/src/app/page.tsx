@@ -16,6 +16,7 @@ import GoogleMapsSearchBar from '@/components/HUD/GoogleMapsSearchBar';
 import ViperProspectorModal from '@/components/HUD/ViperProspectorModal';
 import AiChatboxConsole from '@/components/HUD/AiChatboxConsole';
 import TerminalModal from '@/components/HUD/TerminalModal';
+import GlobalOsintDrawer from '@/components/HUD/GlobalOsintDrawer';
 import { CompanyNodeData } from '@/lib/nodes';
 import {
   THEME_PRESETS,
@@ -339,6 +340,7 @@ export default function HomePage() {
   const [isViperOpen, setIsViperOpen] = useState<boolean>(false);
   const [isAiChatboxOpen, setIsAiChatboxOpen] = useState<boolean>(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState<boolean>(false);
+  const [isOsintDrawerOpen, setIsOsintDrawerOpen] = useState<boolean>(false);
   const viewerRef = useRef<any>(null);
 
   // Global shortcut to toggle Tactical Terminal (Ctrl+` or F2)
@@ -1026,6 +1028,8 @@ export default function HomePage() {
         isViperOpen={isViperOpen}
         onOpenAiChatbox={() => setIsAiChatboxOpen(true)}
         isAiChatboxOpen={isAiChatboxOpen}
+        onToggleOsintDrawer={() => setIsOsintDrawerOpen((prev) => !prev)}
+        isOsintDrawerOpen={isOsintDrawerOpen}
       />
 
       {/* Manual Orbital Pan / Zoom D-Pad */}
@@ -1136,6 +1140,15 @@ export default function HomePage() {
         isOpen={isTerminalOpen}
         onClose={() => setIsTerminalOpen(false)}
         onFlyToNode={handleFlyToNode}
+        onSelectCompany={handleSelectCompany}
+        activeTheme={activeTheme}
+      />
+
+      {/* Dedicated Global OSINT Drawer (Wikidata & GDELT 2.0) */}
+      <GlobalOsintDrawer
+        isOpen={isOsintDrawerOpen}
+        onClose={() => setIsOsintDrawerOpen(false)}
+        onFlyToTarget={handleFlyToNode}
         onSelectCompany={handleSelectCompany}
         activeTheme={activeTheme}
       />

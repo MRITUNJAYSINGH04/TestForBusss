@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"app\\\\page.tsx -> @/components/Globe/GlobeViewport\":{\"id\":\"app\\\\page.tsx -> @/components/Globe/GlobeViewport\",\"files\":[\"static/chunks/_app-pages-browser_src_components_Globe_GlobeViewport_tsx.js\"]}}"
+self.__REACT_LOADABLE_MANIFEST='{"app\\\\page.tsx -> @/components/Globe/GlobeViewport":{"id":2139,"files":["static/chunks/139.f47df562121fd537.js"]}}';

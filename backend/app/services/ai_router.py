@@ -65,7 +65,7 @@ class AIRouter:
         prompt: str,
         system_prompt: Optional[str] = None,
         json_mode: bool = False,
-        timeout: float = 20.0,
+        timeout: float = 6.0,
     ) -> Optional[str]:
         """Calls OpenRouter with fallback across supported free models."""
         if not self.openrouter_key:
@@ -83,7 +83,7 @@ class AIRouter:
             messages.append({"role": "system", "content": system_prompt})
         messages.append({"role": "user", "content": prompt})
 
-        for model in self.openrouter_models:
+        for model in self.openrouter_models[:2]:
             payload: Dict[str, Any] = {
                 "model": model,
                 "messages": messages,

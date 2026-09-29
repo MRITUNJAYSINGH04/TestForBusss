@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.core.config import settings
 from backend.app.core.database import Base, engine, init_db
-from backend.app.api.endpoints import profile, scan, companies, campaign, discovery, enrichment, search, news, viper
+from backend.app.api.endpoints import profile, scan, companies, campaign, discovery, enrichment, search, news, viper, gdelt
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -65,6 +65,11 @@ app.include_router(campaign.router, prefix="/api/v1/campaign", tags=["Campaign &
 # Real-Time Business News Pulse & Telemetry Beacons
 app.include_router(news.router, prefix="/api/news", tags=["Live Business News Pulse"])
 app.include_router(news.router, prefix="/api/v1/news", tags=["Live Business News Pulse (v1)"])
+
+# GDELT Project 2.0 Live News & Wikidata Intelligence Feeds
+app.include_router(gdelt.router, prefix="/api/gdelt", tags=["GDELT & Wikidata Intelligence"])
+app.include_router(gdelt.router, prefix="/api/v1/gdelt", tags=["GDELT & Wikidata Intelligence (v1)"])
+
 
 
 @app.get("/health", tags=["System Health"])
